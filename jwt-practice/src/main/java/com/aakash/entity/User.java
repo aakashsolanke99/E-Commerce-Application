@@ -2,14 +2,12 @@ package com.aakash.entity;
 
 import java.util.Set;
 
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.ManyToAny;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class User {
@@ -21,7 +19,7 @@ public class User {
 	private String userLastName;
 	private String userPassword;
 	
-	@ManyToAny(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER ,cascade = jakarta.persistence.CascadeType.ALL)
 	@JoinTable(name = "USER_ROLE",
 	  joinColumns = {
            @JoinColumn(name="USER_ID")
@@ -30,15 +28,15 @@ public class User {
 			  @JoinColumn(name="USER_ROLE")
 	  }
 	               )
-	private Set<Role> roles;
+	private Set<Role> role;
 
-	public User(String userName, String userFirstName, String userLastName, String userPassword, Set<Role> roles) {
+	public User(String userName, String userFirstName, String userLastName, String userPassword, Set<Role> role) {
 		super();
 		this.userName = userName;
 		this.userFirstName = userFirstName;
 		this.userLastName = userLastName;
 		this.userPassword = userPassword;
-		this.roles = roles;
+		this.role = role;
 	}
 
 	public User() {
@@ -79,17 +77,17 @@ public class User {
 	}
 
 	public Set<Role> getRoles() {
-		return roles;
+		return role;
 	}
 
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
+	public void setRoles(Set<Role> role) {
+		this.role = role;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userName=" + userName + ", userFirstName=" + userFirstName + ", userLastName=" + userLastName
-				+ ", userPassword=" + userPassword + ", roles=" + roles + "]";
+				+ ", userPassword=" + userPassword + ", roles=" + role + "]";
 	}
 	
 	
